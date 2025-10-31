@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Main test service using official Playwright image (recommended)
+  eleos-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.playwright
+    container_name: eleos-automation-tests
+    volumes:
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./test_data:/app/test_data
+    environment:
+      - PYTHONPATH=/app
+      # Override pytest.ini completely and run single browser instance
+      - PYTEST_ADDOPTS=--strict-markers --strict-config --browser chromium --slowmo 1000 --html=reports/report.html --self-contained-html --base-url https://demo.automationtesting.in --maxfail=1
+      - DISPLAY=:99
+    command: >
+      sh -c "
+        echo 'Starting Eleos Automation Tests...' &&
+        Xvfb :99 -screen 0 1024x768x24 &
+        export DISPLAY=:99 &&
+        pytest tests/test_automation_flow.py::TestAutomationFlow::test_complete_automation_flow -v
+      "

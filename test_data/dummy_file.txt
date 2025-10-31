@@ -1,0 +1,8 @@
+This is a dummy text file for testing file upload functionality.
+It contains some sample text that can be used for automation testing purposes.
+
+Line 1: Sample data
+Line 2: More sample data
+Line 3: Testing file upload feature
+
+End of file.

@@ -1,0 +1,23 @@
+# Alternative Dockerfile using official Playwright image
+FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements file
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY . .
+
+# Create reports directory
+RUN mkdir -p reports
+
+# Set environment variables
+ENV PYTHONPATH=/app
+
+# Default working directory
+WORKDIR /app

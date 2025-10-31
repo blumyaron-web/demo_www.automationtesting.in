@@ -1,4 +1,6 @@
 import os
+import random
+from faker import Faker
 
 
 class TestAutomationFlow:
@@ -14,24 +16,55 @@ class TestAutomationFlow:
         6. Navigate to file upload and upload dummy file
         """
         
+        # Initialize Faker for generating test data
+        fake = Faker()
+        
+        # Generate test data variables
+        first_name = fake.first_name()
+        last_name = fake.last_name()
+        full_address = fake.address().replace('\n', ', ')
+        email_address = fake.email()
+        phone_number = fake.phone_number()[:10]  # Limit to 10 digits
+        
+        # Form selection data
+        gender = random.choice(["Male", "Female"])
+        hobbies = [random.choice(["Cricket", "Movies", "Hockey"])]
+        language = random.choice(["English", "Arabic", "Bulgarian"])
+        skills = random.choice(["Java", "C", "C++", "Python"])
+        country = random.choice(["India", "Australia", "United States"])
+        
+        # Birth date components
+        birth_year = str(random.randint(1980, 2000))
+        birth_month = random.choice(["January", "February", "March", "April", "May", "June", 
+                                   "July", "August", "September", "October", "November", "December"])
+        birth_day = str(random.randint(1, 28))  # Safe range for all months
+        
+        # Password
+        password = fake.password(length=12, special_chars=True, digits=True, upper_case=True)
+        
+        # Alert test input
+        alert_input_text = fake.sentence(nb_words=3)
+        
+        logger.info(f"Generated test data - Name: {first_name} {last_name}, Email: {email_address}")
+        
         app_pages.index.navigate()
         app_pages.index.skip_signin()
         
         app_pages.register.fill_personal_info(
-            first_name="John",
-            last_name="Doe",
-            address="123 Test Street, Test City",
-            email="john.doe@test.com",
-            phone="1234567890"
+            first_name=first_name,
+            last_name=last_name,
+            address=full_address,
+            email=email_address,
+            phone=phone_number
         )
 
-        app_pages.register.select_gender("Male")
-        app_pages.register.select_hobbies(["Cricket"])
-        app_pages.register.select_language("English")
-        app_pages.register.select_skills("Java")
-        app_pages.register.select_country("India")
-        app_pages.register.select_birth_date("1990", "January", "1")
-        app_pages.register.fill_password("TestPassword123")
+        app_pages.register.select_gender(gender)
+        app_pages.register.select_hobbies(hobbies)
+        app_pages.register.select_language(language)
+        app_pages.register.select_skills(skills)
+        app_pages.register.select_country(country)
+        app_pages.register.select_birth_date(birth_year, birth_month, birth_day)
+        app_pages.register.fill_password(password)
         app_pages.register.submit_form()
 
         app_pages.alerts.navigate_to_alerts()
@@ -42,10 +75,12 @@ class TestAutomationFlow:
         alert_text_2 = app_pages.alerts.click_alert_with_ok_cancel("accept")
 
         app_pages.alerts.navigate_to_alerts_with_textbox()
-        input_text = app_pages.alerts.click_alert_with_textbox("Test Input")
+        input_text = app_pages.alerts.click_alert_with_textbox(alert_input_text)
 
         app_pages.file_upload.navigate_to_file_upload()
         
         dummy_file_path = os.path.join(os.path.dirname(__file__), "..", "test_data", "dummy_file.txt")
         dummy_file_path = os.path.abspath(dummy_file_path)
         app_pages.file_upload.upload_file(dummy_file_path)
+        
+        logger.info(f"Test completed successfully with generated data for {first_name} {last_name}")

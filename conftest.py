@@ -10,12 +10,16 @@ def page(browser):
     yield page
     context.close()
 
+
 @pytest.fixture(scope="function")
 def app_pages(page, request):
-    base_url = request.config.getoption("--base-url", default="https://demo.automationtesting.in")
+    base_url = request.config.getoption(
+        "--base-url", default="https://demo.automationtesting.in"
+    )
     app_pages_instance = AppPages(page=page)
     app_pages_instance.set_base_url(base_url)
     return app_pages_instance
+
 
 @pytest.fixture(scope="function")
 def logger():

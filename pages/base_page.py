@@ -33,5 +33,5 @@ class BasePage(ABC):
 
     def close_dropdown(self) -> None:
         viewport = self.page.viewport_size
-        x, y = viewport['width'] / 2 + 10, viewport['height'] / 2 + 10
+        x, y = viewport["width"] / 2 + 10, viewport["height"] / 2 + 10
         self.page.mouse.click(x, y)

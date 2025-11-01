@@ -28,7 +28,6 @@ class BasePage(ABC):
         return self.page.text_content(locator)
 
     def upload_file(self, locator: str, file_path: str) -> None:
-        """Upload file to input element"""
         self.page.set_input_files(locator, file_path)
 
     def close_dropdown(self) -> None:

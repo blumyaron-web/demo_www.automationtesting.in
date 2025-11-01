@@ -8,6 +8,9 @@ playwright-report/
 allure-results/
 allure-report/
 
+# Dashboard cache
+dashboard/__pycache__/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -32,7 +35,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-data/__pycache__/
 
 # Virtual environments
 .env

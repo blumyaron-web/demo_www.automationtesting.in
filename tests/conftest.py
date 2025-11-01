@@ -1,6 +1,10 @@
 import pytest
+
 from pages import AppPages
+from flows import AppFlows
+
 from utils.logger import get_logger
+from data.generator import TestDataGenerator
 
 
 @pytest.fixture(scope="function")
@@ -22,5 +26,15 @@ def app_pages(page, request):
 
 
 @pytest.fixture(scope="function")
+def app_flows(app_pages, test_data):
+    return AppFlows(app_pages=app_pages, test_data=test_data)
+
+
+@pytest.fixture(scope="function")
 def logger():
     return get_logger()
+
+
+@pytest.fixture(scope="function")
+def test_data():
+    return TestDataGenerator()

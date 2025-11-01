@@ -16,5 +16,4 @@ class FileUploadPage(BasePage):
         super().upload_file(self.__locators.FILE_INPUT, file_path)
 
     def upload_file(self, file_path: str):
-        """Upload a file using the default file input"""
         self.file_upload(file_path)
